@@ -1,98 +1,115 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ScrollView, StatusBar, TextInput } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
+import Logo from '@/components/common/Logo';
+import SearchBar from '@/components/common/SearchBar';
+import MealCard from '@/components/common/MealCard';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+export default function HomePage() {
+  const trendingMeals = [
+    {
+      id: 1,
+      name: 'Burger Deluxe',
+      restaurant: 'Burger Palace',
+      price: '$12.99',
+      image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300',
+    },
+    {
+      id: 2,
+      name: 'Pizza Margherita',
+      restaurant: 'Pizza Heaven',
+      price: '$10.99',
+      image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=300',
+    },
+    {
+      id: 3,
+      name: 'Sushi Roll',
+      restaurant: 'Sushi Master',
+      price: '$15.99',
+      image: 'https://images.unsplash.com/photo-1579584421395-3d61a3ff8b79?w=300',
+    },
+  ];
 
-export default function HomeScreen() {
+  const advertisements = [
+    {
+      id: 1,
+      name: 'KFC',
+      image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400',
+      offer: '20% OFF',
+    },
+    {
+      id: 2,
+      name: 'McDonald\'s',
+      image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400',
+      offer: 'Free Delivery',
+    },
+  ];
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
+    <SafeAreaView className="flex-1 bg-gray-50">
+      <StatusBar barStyle="dark-content" />
+      
+      <ScrollView className="flex-1">
+        {/* Header */}
+        <View className="flex-row justify-between items-center px-4 py-3 bg-white">
+          <View className="w-10 h-10 rounded-full bg-gray-300 overflow-hidden">
+            <Image 
+              source={{ uri: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face' }}
+              className="w-full h-full"
             />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+          </View>
+          
+          <Logo size="text-xl" />
+          
+          <TouchableOpacity className="p-2">
+            <Ionicons name="heart" size={24} color="#ef4444" />
+          </TouchableOpacity>
+        </View>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+        {/* Search Bar */}
+        <View className="px-4 py-4">
+          <SearchBar />
+        </View>
+
+        {/* Advertisements */}
+        <View className="px-4 mb-6">
+          <Text className="text-lg font-semibold text-gray-800 mb-3">Popular Restaurants</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {advertisements.map((ad) => (
+              <View key={ad.id} className="mr-4">
+                <View className="relative">
+                  <Image 
+                    source={{ uri: ad.image }}
+                    className="w-64 h-32 rounded-lg"
+                  />
+                  <View className="absolute top-2 right-2 bg-orange-500 px-2 py-1 rounded">
+                    <Text className="text-white text-xs font-bold">{ad.offer}</Text>
+                  </View>
+                </View>
+                <Text className="text-gray-800 font-semibold mt-2">{ad.name}</Text>
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+
+        {/* Trending Meals */}
+        <View className="px-4 pb-6">
+          <Text className="text-lg font-semibold text-gray-800 mb-3">Trending Meals</Text>
+          <View className="space-y-4">
+            {trendingMeals.map((meal) => (
+              <MealCard
+                key={meal.id}
+                id={meal.id}
+                name={meal.name}
+                restaurant={meal.restaurant}
+                price={meal.price}
+                image={meal.image}
+                onAddToCart={(id) => console.log(`Added meal ${id} to cart`)}
+              />
+            ))}
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
