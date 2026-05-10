@@ -10,6 +10,7 @@ export default function TabLayout() {
         tabBarInactiveTintColor: '#6b7280',
         tabBarStyle: styles.tabBar,
         headerShown: false,
+        tabBarShowLabel: false,
       }}
     >
       <Tabs.Screen
