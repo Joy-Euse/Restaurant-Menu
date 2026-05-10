@@ -1,14 +1,34 @@
-import { View, Text, ScrollView, StatusBar } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HistoryPage() {
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
-      <StatusBar barStyle="dark-content" />
-      <View className="flex-1 justify-center items-center">
-        <Text className="text-gray-500 text-lg">History Page</Text>
-        <Text className="text-gray-400 text-sm mt-2">Your order history</Text>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.content}>
+        <Text style={styles.title}>History Page</Text>
+        <Text style={styles.subtitle}>Your order history</Text>
       </View>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f9fafb',
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 18,
+    color: '#6b7280',
+  },
+  subtitle: {
+    fontSize: 14,
+    color: '#9ca3af',
+    marginTop: 8,
+  },
+});

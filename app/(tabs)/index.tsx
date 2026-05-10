@@ -1,9 +1,8 @@
-import { View, Text, TouchableOpacity, Image, ScrollView, StatusBar, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ScrollView, StatusBar, StyleSheet, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import Logo from '@/components/common/Logo';
-import SearchBar from '@/components/common/SearchBar';
-import MealCard from '@/components/common/MealCard';
+
+const { width } = Dimensions.get('window');
 
 export default function HomePage() {
   const trendingMeals = [
@@ -46,66 +45,76 @@ export default function HomePage() {
   ];
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
+    <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
       
-      <ScrollView className="flex-1">
+      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
         {/* Header */}
-        <View className="flex-row justify-between items-center px-4 py-3 bg-white">
-          <View className="w-10 h-10 rounded-full bg-gray-300 overflow-hidden">
+        <View style={styles.header}>
+          <View style={styles.profileImage}>
             <Image 
               source={{ uri: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face' }}
-              className="w-full h-full"
+              style={styles.profileImg}
             />
           </View>
           
-          <Logo size="text-xl" />
+          <Text style={styles.headerTitle}>SupaMenu</Text>
           
-          <TouchableOpacity className="p-2">
+          <TouchableOpacity style={styles.heartIcon}>
             <Ionicons name="heart" size={24} color="#ef4444" />
           </TouchableOpacity>
         </View>
 
         {/* Search Bar */}
-        <View className="px-4 py-4">
-          <SearchBar />
+        <View style={styles.searchContainer}>
+          <View style={styles.searchBar}>
+            <Ionicons name="search" size={20} color="#6b7280" />
+            <Text style={styles.searchPlaceholder}>Search for your preferred restaurant</Text>
+          </View>
         </View>
 
         {/* Advertisements */}
-        <View className="px-4 mb-6">
-          <Text className="text-lg font-semibold text-gray-800 mb-3">Popular Restaurants</Text>
+        <View style={styles.adsContainer}>
+          <Text style={styles.sectionTitle}>Popular Restaurants</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {advertisements.map((ad) => (
-              <View key={ad.id} className="mr-4">
-                <View className="relative">
+              <View key={ad.id} style={styles.adCard}>
+                <View style={styles.adImageContainer}>
                   <Image 
                     source={{ uri: ad.image }}
-                    className="w-64 h-32 rounded-lg"
+                    style={styles.adImage}
                   />
-                  <View className="absolute top-2 right-2 bg-orange-500 px-2 py-1 rounded">
-                    <Text className="text-white text-xs font-bold">{ad.offer}</Text>
+                  <View style={styles.offerBadge}>
+                    <Text style={styles.offerText}>{ad.offer}</Text>
                   </View>
                 </View>
-                <Text className="text-gray-800 font-semibold mt-2">{ad.name}</Text>
+                <Text style={styles.adName}>{ad.name}</Text>
               </View>
             ))}
           </ScrollView>
         </View>
 
         {/* Trending Meals */}
-        <View className="px-4 pb-6">
-          <Text className="text-lg font-semibold text-gray-800 mb-3">Trending Meals</Text>
-          <View className="space-y-4">
+        <View style={styles.trendingContainer}>
+          <Text style={styles.sectionTitle}>Trending Meals</Text>
+          <View style={styles.mealsContainer}>
             {trendingMeals.map((meal) => (
-              <MealCard
-                key={meal.id}
-                id={meal.id}
-                name={meal.name}
-                restaurant={meal.restaurant}
-                price={meal.price}
-                image={meal.image}
-                onAddToCart={(id) => console.log(`Added meal ${id} to cart`)}
-              />
+              <View key={meal.id} style={styles.mealCard}>
+                <Image 
+                  source={{ uri: meal.image }}
+                  style={styles.mealImage}
+                />
+                <View style={styles.mealInfo}>
+                  <View>
+                    <Text style={styles.mealName}>{meal.name}</Text>
+                    <Text style={styles.restaurantName}>{meal.restaurant}</Text>
+                    <Text style={styles.mealPrice}>{meal.price}</Text>
+                  </View>
+                  <TouchableOpacity style={styles.addToCartButton}>
+                    <Text style={styles.addToCartText}>Add to Cart</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
             ))}
           </View>
         </View>
@@ -113,3 +122,152 @@ export default function HomePage() {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f9fafb',
+  },
+  scrollView: {
+    flex: 1,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    backgroundColor: '#ffffff',
+  },
+  profileImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    overflow: 'hidden',
+  },
+  profileImg: {
+    width: '100%',
+    height: '100%',
+  },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#1f2937',
+  },
+  heartIcon: {
+    padding: 8,
+  },
+  searchContainer: {
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+  },
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#ffffff',
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  searchPlaceholder: {
+    marginLeft: 12,
+    color: '#6b7280',
+    fontSize: 16,
+  },
+  adsContainer: {
+    paddingHorizontal: 16,
+    marginBottom: 24,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#1f2937',
+    marginBottom: 12,
+  },
+  adCard: {
+    marginRight: 16,
+  },
+  adImageContainer: {
+    position: 'relative',
+  },
+  adImage: {
+    width: 256,
+    height: 128,
+    borderRadius: 8,
+  },
+  offerBadge: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    backgroundColor: '#f97316',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 4,
+  },
+  offerText: {
+    color: '#ffffff',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  adName: {
+    color: '#1f2937',
+    fontWeight: '600',
+    marginTop: 8,
+  },
+  trendingContainer: {
+    paddingHorizontal: 16,
+    paddingBottom: 24,
+  },
+  mealsContainer: {
+    gap: 16,
+  },
+  mealCard: {
+    backgroundColor: '#ffffff',
+    borderRadius: 8,
+    padding: 16,
+    flexDirection: 'row',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  mealImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 8,
+  },
+  mealInfo: {
+    flex: 1,
+    marginLeft: 16,
+    justifyContent: 'space-between',
+  },
+  mealName: {
+    color: '#1f2937',
+    fontWeight: '600',
+    fontSize: 18,
+  },
+  restaurantName: {
+    color: '#6b7280',
+  },
+  mealPrice: {
+    color: '#f97316',
+    fontWeight: 'bold',
+  },
+  addToCartButton: {
+    backgroundColor: '#f97316',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 8,
+    alignSelf: 'flex-start',
+  },
+  addToCartText: {
+    color: '#ffffff',
+    fontWeight: '600',
+  },
+});

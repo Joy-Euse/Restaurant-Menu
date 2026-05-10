@@ -1,10 +1,27 @@
-import { Text } from 'react-native';
+import { Text, StyleSheet } from 'react-native';
 
-export default function Logo({ size = 'text-4xl' }: { size?: string }) {
+interface LogoProps {
+  size?: number;
+}
+
+export default function Logo({ size = 32 }: LogoProps) {
   return (
-    <Text className={`${size} font-bold text-center`}>
-      <Text className="text-black">Supa</Text>
-      <Text className="text-orange-500">Menu</Text>
+    <Text style={[styles.logo, { fontSize: size }]}>
+      <Text style={styles.supaText}>Supa</Text>
+      <Text style={styles.menuText}>Menu</Text>
     </Text>
   );
 }
+
+const styles = StyleSheet.create({
+  logo: {
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  supaText: {
+    color: '#000000',
+  },
+  menuText: {
+    color: '#f97316',
+  },
+});

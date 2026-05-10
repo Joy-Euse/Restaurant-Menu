@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 
 interface MealCardProps {
   id: number;
@@ -11,24 +11,71 @@ interface MealCardProps {
 
 export default function MealCard({ id, name, restaurant, price, image, onAddToCart }: MealCardProps) {
   return (
-    <View className="bg-white rounded-lg p-4 shadow-sm flex-row">
+    <View style={styles.container}>
       <Image 
         source={{ uri: image }}
-        className="w-20 h-20 rounded-lg"
+        style={styles.image}
       />
-      <View className="flex-1 ml-4 justify-between">
+      <View style={styles.info}>
         <View>
-          <Text className="text-gray-800 font-semibold text-lg">{name}</Text>
-          <Text className="text-gray-600">{restaurant}</Text>
-          <Text className="text-orange-500 font-bold">{price}</Text>
+          <Text style={styles.name}>{name}</Text>
+          <Text style={styles.restaurant}>{restaurant}</Text>
+          <Text style={styles.price}>{price}</Text>
         </View>
         <TouchableOpacity 
-          className="bg-orange-500 px-4 py-2 rounded-lg self-start"
+          style={styles.addToCartButton}
           onPress={() => onAddToCart?.(id)}
         >
-          <Text className="text-white font-semibold">Add to Cart</Text>
+          <Text style={styles.addToCartText}>Add to Cart</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#ffffff',
+    borderRadius: 8,
+    padding: 16,
+    flexDirection: 'row',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  image: {
+    width: 80,
+    height: 80,
+    borderRadius: 8,
+  },
+  info: {
+    flex: 1,
+    marginLeft: 16,
+    justifyContent: 'space-between',
+  },
+  name: {
+    color: '#1f2937',
+    fontWeight: '600',
+    fontSize: 18,
+  },
+  restaurant: {
+    color: '#6b7280',
+  },
+  price: {
+    color: '#f97316',
+    fontWeight: 'bold',
+  },
+  addToCartButton: {
+    backgroundColor: '#f97316',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 8,
+    alignSelf: 'flex-start',
+  },
+  addToCartText: {
+    color: '#ffffff',
+    fontWeight: '600',
+  },
+});
