@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, StatusBar, Image, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StatusBar, Image, StyleSheet, ScrollView } from 'react-native';
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 export default function SignupPage() {
   return (
     <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
       <StatusBar barStyle="light-content" />
       
       <View style={styles.whiteCard}>
@@ -104,6 +105,7 @@ export default function SignupPage() {
           </View>
         </View>
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -112,6 +114,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f97316',
+  },
+  scrollContainer: {
+    flexGrow: 1,
   },
   whiteCard: {
     flex: 1,
